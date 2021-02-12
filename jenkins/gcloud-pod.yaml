@@ -5,18 +5,18 @@ metadata:
 spec:
   containers:
   - name: kaniko
-    image: gcr.io/kaniko-project/executor:debug
-    imagePullPolicy: Always
-    command:
-    - /busybox/cat
+    image: google/cloud-sdk
+    env:
+      - name: CLOUDSDK_CONFIG
+        value: "/config/mygcloud" 
     tty: true
     volumeMounts:
-      - name: kaniko-secret
-        mountPath: /secret
+      - name: service-account
+        mountPath: /config/mygcloud
     env:
       - name: GOOGLE_APPLICATION_CREDENTIALS
         value: /secret/service_account.json
   volumes:
-  - name: kaniko-secret
+  - name: service-account
     secret:
       secretName: service-account-file
